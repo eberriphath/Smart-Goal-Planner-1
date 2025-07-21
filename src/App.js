@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import './App.css'; // import CSS here
+import './App.css'; 
 import GoalList from './components/GoalList';
 import AddGoalForm from './components/AddGoalForm';
 import DepositForm from './components/DepositForm';
