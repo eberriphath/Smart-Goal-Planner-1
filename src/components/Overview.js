@@ -2,9 +2,7 @@ import React from 'react';
 
 function Overview({ goals }) {
   const totalGoals = goals.length;
-
   const totalSaved = goals.reduce((sum, goal) => sum + parseFloat(goal.savedAmount), 0);
-
   const goalsCompleted = goals.filter(goal => parseFloat(goal.savedAmount) >= parseFloat(goal.targetAmount)).length;
 
   const today = new Date();
@@ -15,7 +13,6 @@ function Overview({ goals }) {
       <p>Total Goals: {totalGoals}</p>
       <p>Total Money Saved: ${totalSaved}</p>
       <p>Goals Completed: {goalsCompleted}</p>
-
       <ul>
         {goals.map(goal => {
           const daysLeft = Math.ceil((new Date(goal.deadline) - today) / (1000 * 60 * 60 * 24));

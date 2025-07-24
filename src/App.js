@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './App.css'; 
 import GoalList from './components/GoalList';
@@ -28,14 +27,13 @@ function App() {
   };
 
   const makeDeposit = (goalId, amount) => {
-    const goalToUpdate = goals.find(goal => goal.id === goalId);
-
+    const goalToUpdate = goals.find(goal => goal.id == goalId);
     const updatedGoal = {
       ...goalToUpdate,
       savedAmount: parseFloat(goalToUpdate.savedAmount) + amount
     };
 
-    fetch(`http://localhost:3001/goals/${goalId}`, {
+    fetch(`http://localhost:3001/goals/${goalId}`, { 
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ savedAmount: updatedGoal.savedAmount })
@@ -43,7 +41,7 @@ function App() {
       .then(res => res.json())
       .then(data => {
         const updatedGoals = goals.map(goal =>
-          goal.id === goalId ? data : goal
+          goal.id == goalId ? data : goal
         );
         setGoals(updatedGoals);
       })
@@ -51,11 +49,27 @@ function App() {
   };
 
   const deleteGoal = (goalId) => {
-    fetch(`http://localhost:3001/goals/${goalId}`, {
+    fetch(`http://localhost:3001/goals/${goalId}`, { 
       method: 'DELETE'
     })
       .then(() => {
-        const updatedGoals = goals.filter(goal => goal.id !== goalId);
+        const updatedGoals = goals.filter(goal => goal.id != goalId);
+        setGoals(updatedGoals);
+      })
+      .catch(err => console.log(err));
+  };
+
+  const updateGoal = (updatedGoal) => {
+    fetch(`http://localhost:3001/goals/${updatedGoal.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedGoal)
+    })
+      .then(res => res.json())
+      .then(data => {
+        const updatedGoals = goals.map(goal =>
+          goal.id == data.id ? data : goal
+        );
         setGoals(updatedGoals);
       })
       .catch(err => console.log(err));
@@ -67,7 +81,7 @@ function App() {
       <Overview goals={goals} />
       <AddGoalForm addGoal={addGoal} />
       <DepositForm goals={goals} makeDeposit={makeDeposit} />
-      <GoalList goals={goals} deleteGoal={deleteGoal} />
+      <GoalList goals={goals} deleteGoal={deleteGoal} updateGoal={updateGoal} />
     </div>
   );
 }

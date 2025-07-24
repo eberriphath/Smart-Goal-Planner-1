@@ -14,7 +14,6 @@ function DepositForm({ goals, makeDeposit }) {
 
     makeDeposit(selectedGoalId, parseFloat(amount));
 
-    // Reset form
     setAmount('');
     setSelectedGoalId('');
   }
@@ -22,7 +21,6 @@ function DepositForm({ goals, makeDeposit }) {
   return (
     <form onSubmit={handleSubmit}>
       <h2>Make a Deposit</h2>
-
       <select
         value={selectedGoalId}
         onChange={(e) => setSelectedGoalId(e.target.value)}
@@ -33,7 +31,6 @@ function DepositForm({ goals, makeDeposit }) {
           <option key={goal.id} value={goal.id}>{goal.name}</option>
         ))}
       </select>
-
       <input
         type="number"
         placeholder="Amount"
@@ -41,7 +38,6 @@ function DepositForm({ goals, makeDeposit }) {
         onChange={(e) => setAmount(e.target.value)}
         required
       />
-
       <button type="submit">Deposit</button>
     </form>
   );
